@@ -5,19 +5,26 @@ const addFirstPlayerClass = 'add-first-highlight'
 const addSecondPlayerClass = 'add-second-highlight'
 
 let othelloBoard = document.getElementById('othello-board')
-let tiles = []
-let squares = []
+let tiles
+let squares
 let player
 let firstPlayerScore = document.getElementById('first-player-score')
 let secondPlayerScore = document.getElementById('second-player-score')
 let debug = document.getElementById('debug')
 debug.setAttribute('style', 'display: none')
 let playerTurn = document.getElementById('player-turn')
+let gameOver = 0
+let player1Section = document.getElementById('player1')
+let player2Section = document.getElementById('player2')
+
+const test = () => console.log('test')
 
 const initializeBoard = () => {
   othelloBoard.innerHTML = null;
   let count = 0;
   let tmp
+  tiles = []
+  squares = []
   Array(8).fill().map((_, i) => {
     squares.push([])
     tiles.push([])
@@ -65,7 +72,7 @@ const checkTiles = (i, j, player, dir, method = 'checkAddable') => {
   let x = j
   let y = i
   while(i >= 0 && i < 8 && j >= 0 && j < 8) {
-    if(squares[i][j] === 'clear' || squares[i][j] === 'addable' || (squares[i][j] === player && !flipPlayer)) {
+    if (squares[i][j] === 'clear' || squares[i][j] === 'addable' || (squares[i][j] === player && !flipPlayer)) {
       return null
     } else if(squares[i][j] === player && flipPlayer) {
       if (method === 'checkAddable') {
@@ -127,8 +134,46 @@ const checkTiles = (i, j, player, dir, method = 'checkAddable') => {
   return null
 }
 
+const endGame = (score1, score2) => {
+  if (gameOver === 2)
+    window.alert('No one can move anymore!')
+  window.alert(`END OF THE GAME. ${score1 > score2 ? 'First' : 'Second'} player has won the game`)
+}
+
+const checkGame = (canMove) => {
+  let score1 = 0
+  let score2 = 0
+
+  squares.forEach(
+    (square) => square.forEach(
+      (data) => {
+        score1 += (data === 'first') ? 1 : 0
+        score2 += (data === 'second') ? 1 : 0
+      }
+    )
+  )
+  firstPlayerScore.innerHTML = score1
+  secondPlayerScore.innerHTML = score2
+
+  if (score1 + score2 === 64) {
+    return endGame(score1, score2)
+  } else if (!canMove) {
+    window.alert(`${player} can't move. ${player} pass`)
+    gameOver++
+    return gameOver === 2 ? endGame() : refresh(player)
+  }
+}
+
 const refresh = (playerRef) => {
+
   player = opponent(playerRef)
+  if (player === 'first') {
+    player1Section.className = 'player-info text-white turn'
+    player2Section.className = 'player-info text-white' 
+  } else {
+    player2Section.className = 'player-info text-white turn'
+    player1Section.className = 'player-info text-white'
+  }
   playerTurn.innerHTML = `${player[0].toUpperCase()}${player.slice(1)} Player (${player === 'first' ? 'White' : 'Black'}) turn`
   let tmp
   let canMove = false
@@ -151,6 +196,7 @@ const refresh = (playerRef) => {
           if (count) {
             canMove = true
             squares[i][j] = 'addable'
+            gameOver = 0
             tiles[i][j].className = `${emptyClass} ${ player === 'first' ? addFirstPlayerClass : addSecondPlayerClass }`
             break
           }
@@ -160,22 +206,7 @@ const refresh = (playerRef) => {
     }
     //debug.innerHTML += `<tr>${tmp}</tr>`
   }
-  if (!canMove) {
-    window.alert(`${player} can't move. ${player} pass`)
-    return refresh(player)
-  }
-  let score1 = 0
-  let score2 = 0
-  squares.forEach(
-    (square) => square.forEach(
-      (data) => {
-        score1 += (data === 'first') ? 1 : 0
-        score2 += (data === 'second') ? 1 : 0
-      }
-    )
-  )
-  firstPlayerScore.innerHTML = score1
-  secondPlayerScore.innerHTML = score2
+  checkGame(canMove)
 }
 
 const makeMove = (e, i, j) => {
