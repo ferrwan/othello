@@ -36,6 +36,8 @@ const initializeBoard = () => {
       boardTile = document.createElement('div')
       boardTile.setAttribute('id', `tile-${count}`)
       boardTile.addEventListener('click', event => makeMove(event, i, j))
+      boardTile.addEventListener('mouseover', event => showHint(event, i, j))
+      boardTile.addEventListener('mouseout', event => hideHint(event, i, j))
       boardRow.appendChild(boardTile)
       squares[i].push('clear')
       tiles[i][j] = boardTile
@@ -197,7 +199,7 @@ const refresh = (playerRef) => {
             canMove = true
             squares[i][j] = 'addable'
             gameOver = 0
-            tiles[i][j].className = `${emptyClass} ${ player === 'first' ? addFirstPlayerClass : addSecondPlayerClass }`
+            //tiles[i][j].className = `${emptyClass} ${ player === 'first' ? addFirstPlayerClass : addSecondPlayerClass }`
             break
           }
         }
@@ -207,6 +209,18 @@ const refresh = (playerRef) => {
     //debug.innerHTML += `<tr>${tmp}</tr>`
   }
   checkGame(canMove)
+}
+
+const showHint = (e, i, j) => {
+  if(squares[i][j] === 'addable') {
+    tiles[i][j].className = `${emptyClass} ${ player === 'first' ? addFirstPlayerClass : addSecondPlayerClass }`
+  }
+}
+
+const hideHint = (e, i, j) => {
+  if(squares[i][j] === 'addable') {
+    tiles[i][j].className = emptyClass
+  }
 }
 
 const makeMove = (e, i, j) => {
