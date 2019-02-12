@@ -11,7 +11,7 @@
   "devDependencies": {},
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "compile": "rm -rf dist & mkdir dist & npm run babel & npm run less",
+    "compile": "rm -rf dist & mkdir dist & yarn babel & yarn less",
     "babel": "node_modules/.bin/babel src/othello-es6.js -o dist/othello.js",
     "less": "lessc src/othello.less dist/othello.css"
   },
