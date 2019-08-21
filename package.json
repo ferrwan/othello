@@ -4,15 +4,17 @@
   "description": "pwd-othello",
   "main": "index.js",
   "dependencies": {
-    "babel-cli": "^6.22.1",
-    "babel-preset-env": "^1.1.4",
-    "less": "^2.7.2"
+    "less": "^3.10.2"
   },
-  "devDependencies": {},
+  "devDependencies": {
+    "@babel/cli": "^7.5.5",
+    "@babel/core": "^7.5.5",
+    "@babel/preset-env": "^7.5.5"
+  },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "compile": "rm -rf dist & mkdir dist & yarn babel & yarn less",
-    "babel": "node_modules/.bin/babel src/othello-es6.js -o dist/othello.js",
+    "compile": "rm -rf dist & mkdir -p dist & yarn babel & yarn less",
+    "babel": "babel src/othello-es6.js -o dist/othello.js",
     "less": "lessc src/othello.less dist/othello.css"
   },
   "keywords": [
