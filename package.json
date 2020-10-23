@@ -4,16 +4,20 @@
   "description": "pwd-othello",
   "main": "index.js",
   "dependencies": {
+    "@yarnpkg/pnpify": "^2.3.3",
     "less": "^3.12.2"
   },
   "devDependencies": {
     "@babel/cli": "^7.12.1",
     "@babel/core": "^7.12.3",
-    "@babel/preset-env": "^7.12.1"
+    "@babel/preset-env": "^7.12.1",
+    "eslint": "^7.11.0",
+    "eslint-config-airbnb-base": "^14.2.0",
+    "eslint-plugin-import": "^2.22.1"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "compile": "rm -rf dist & mkdir -p dist & yarn babel & yarn less",
+    "build": "rm -rf dist && mkdir -p dist && yarn babel && yarn less",
     "babel": "babel src/othello-es6.js -o dist/othello.js",
     "less": "lessc src/othello.less dist/othello.css"
   },
