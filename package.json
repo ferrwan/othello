@@ -14,15 +14,12 @@
     "eslint": "^7.11.0",
     "eslint-config-airbnb-base": "^14.2.0",
     "eslint-plugin-import": "^2.22.1",
-    "gh-pages": "^3.1.0",
-    "terser": "^5.3.8"
+    "gh-pages": "^3.1.0"
   },
   "scripts": {
-    "clear": "rm -rf dist && mkdir -p dist",
-    "cp-index": "cp src/index.html dist",
     "babel": "babel src/othello-es6.js -o dist/othello.js",
     "less": "lessc src/othello.less dist/othello.css",
-    "build": "yarn clear && yarn cp-index && yarn babel && yarn less",
+    "build": "./build",
     "predeploy": "yarn build",
     "deploy": "gh-pages -d dist"
   },
