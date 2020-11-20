@@ -1,5 +1,14 @@
 #!/bin/bash
 
+# Show progress
+while true;do echo -n .;sleep 1;done &
+
+# Run Commands
+echo "Building files"
 rm -rf dist && mkdir -p dist
 cp src/index.html dist
 yarn babel && yarn less
+
+# Kill the infinite progress command
+kill $!; trap 'kill $!' SIGTERM
+echo -e "\nDone"
