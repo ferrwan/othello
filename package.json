@@ -19,13 +19,13 @@
   "scripts": {
     "babel": "babel src/othello-es6.js -o dist/othello.js",
     "less": "lessc src/othello.less dist/othello.css",
-    "build": "rm -rf dist && mkdir -p dist && yarn babel && yarn less",
+    "build": "./build",
     "predeploy": "yarn build",
     "deploy": "gh-pages -d dist"
   },
   "keywords": [
     "game"
   ],
-  "author": "CFFEE",
+  "author": "Ferry Irawan",
   "license": "ISC"
 }
